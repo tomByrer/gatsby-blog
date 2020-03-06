@@ -18,13 +18,13 @@ Since this is the only export, `layout` is the only function all the other scrip
 ```js
 const Layout = () => {
   return (
-    <div>
+    <>
       <Header />
-    </div>
+    </>
   )
 }
 ```
-Only thing `loyout` does here is wrap a simple `<div>` around the `<Header />` code returned above, & I'm not sure if that is needed; could use a fragment or export the header directly?
+Only thing `loyout` does here is wrap the `<Header />` code returned above with a diffrent name, & I'm not sure why he didin't export the header directly, so I made the wrapper a "fragment".
 
 ```js
 const Header = () => {
