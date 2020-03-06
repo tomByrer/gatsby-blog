@@ -6,7 +6,7 @@ Inside your `src/pages` directory and review the [`index.js` file](https://githu
 import React from "react"
 import { StaticQuery, graphql } from 'gatsby'
 ```
-The first 2 lines pull in 2 outside libs to help us create the home page.  `React` creates the HTML via JSX.  The 2 other functiions are helpers to use the Markdown pages as a data base.
+The first 2 lines pull in 2 outside libs to help us create the home page.  `React` creates the HTML via JSX.  The 2 other functiions are helpers to use the `cgatsby-config.js`'s export as a data source.
 
 At the bottom of the file:
 ```js
@@ -45,7 +45,7 @@ const Header = () => {
   )
 }
 ```
-`Header` has 2 simple tasks: make a GraphQL call to pull data from our Markdown pages, then send it to `TitleAndDescription`.  Splitting the code up like this (composition) helps seperates conserns & increases readablity.
+`Header` has 2 simple tasks: make a GraphQL call to pull data from our `cgatsby-config.js`, then send it to `TitleAndDescription`.  Splitting the code up like this (composition) helps seperates conserns & increases readablity.
 
 ```js
 const TitleAndDescription = ({data}) => {
