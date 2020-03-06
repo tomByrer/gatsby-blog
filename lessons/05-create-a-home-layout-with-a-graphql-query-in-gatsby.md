@@ -1,116 +1,21 @@
 # Create a Home Layout Component with a GraphQL Query in Gatsby
 
-Inside your `src/pages` directory and open the `index.js` file.
+Inside your `src/pages` directory and review the [`index.js` file](https://github.com/eggheadio-projects/build-a-blog-with-react-and-markdown-using-gatsby/blob/master/lessons/05-create-a-home-layout-component-with-a-graphql-query-in-gatsby/src/pages/index.js).
 
-You will notice that we have a simple component that returns `Hello world!`:
-
-```JS
+```js
 import React from "react"
+import { StaticQuery, graphql } from 'gatsby'
+```
+The first 2 lines pull in 2 outside libs to help us create the home page.  `React` creates the HTML via JSX.  The 2 other functiions are helpers to use the Markdown pages as a data base.
 
-export default () => <div>Hello world!</div>
+At the bottom of the file:
+```js
+export default Layout 
 ```
 
-Now refactor that component to this:
+Since this is the only export, `layout` is the only function all the other scripts outside see.  Ohter functions are consumed internally.
 
-```JS
-import React from "react"
-
-const Layout = () => {
-  return (
-    <div>
-      Hello World
-    </div>
-  )
-}
-
-export default Layout
-```
-
-Now in order to bring data into our Layout component we have to import `StaticQuery` and `graphql` from `gatsby`:
-
-```JS
-import React from "react"
-import { StaticQuery, graphql } from "gatsby"
-
-const Layout = () => {
-  return (
-    <div>
-      Hello World
-    </div>
-  )
-}
-
-export default Layout
-```
-
-Now let's create a new component called `Header` and let's have it will return our StaticQuery component. And one of the props that the StaticQuery returns is our actual GraphQL query:
-
-```JS
-import React from "react"
-import { StaticQuery, graphql } from "gatsby"
-
-const Header = () => {
-  return (
-    <StaticQuery 
-      query={graphql`
-        query {
-          site {
-            siteMetadata {
-              title
-              description
-            }
-          }
-        }
-      `}
-    />
-  )
-}
-const Layout = () => {
-  return (
-    <div>
-      Hello World
-    </div>
-  )
-}
-
-export default Layout
-```
-
-Inside of our query prop we're going to pass a tagged templated with the syntax we use to make a GraphQL query:
-
-```JS
-graphql`
-  query {
-    ...
-  }
-`
-```
-
-And you can use the same syntax that you used in your GraphiQL.
-
-The next prop that we pass to `StaticQuery` is what we want to render.
-
-```JS
-import React from "react"
-import { StaticQuery, graphql } from "gatsby"
-
-const Header = () => {
-  return (
-    <StaticQuery 
-      query={graphql`
-        query {
-          site {
-            siteMetadata {
-              title
-              description
-            }
-          }
-        }
-      `}
-      render={data => <div>{data.site.siteMetadata.title}}
-    />
-  )
-}
+```js
 const Layout = () => {
   return (
     <div>
@@ -118,33 +23,13 @@ const Layout = () => {
     </div>
   )
 }
-
-export default Layout
 ```
+Only thing `loyout` does here is wrap a simple `<div>` around the `<Header />` code returned above, & I'm not sure if that is needed; could use a fragment or export the header directly?
 
-Now we're able to replace our `Hello world!` with our `Header` component.
-
-Let's clean up our the our render prop by creating a new component:
-
-```JS
-import React from "react"
-import { StaticQuery, graphql } from "gatsby"
-
-const TitleAndDescription = ( {data}) => {
-  const title = data.site.siteMetadata.title
-  const description = data.site.siteMetadata.description
-
-  return (
-    <div>
-      <h2>{title}</h2>
-      <p>{description}</p>
-    </div>
-  )
-}
-
+```js
 const Header = () => {
   return (
-    <StaticQuery 
+    <StaticQuery
       query={graphql`
         query {
           site {
@@ -155,19 +40,34 @@ const Header = () => {
           }
         }
       `}
-      render={data => <TitleAndDescription data={data}>}
+      render={data => <TitleAndDescription data={data} />}
     />
   )
 }
-const Layout = () => {
+```
+`Header` has 2 simple tasks: make a GraphQL call to pull data from our Markdown pages, then send it to `TitleAndDescription`.  Splitting the code up like this (composition) helps seperates conserns & increases readablity.
+
+```js
+const TitleAndDescription = ({data}) => {
+  const title = data.site.siteMetadata.title
+  const description = data.site.siteMetadata.description
+
   return (
-    <div>
-      Hello World
+    <div style={{
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+      fontFamily: 'avenir'
+    }}>
+      <h2 style={{marginBottom: 0}}>{title}</h2>
+      <p style={{
+        marginTop: 0,
+        opacity: 0.5
+      }}>
+        {description}
+      </p>
     </div>
   )
 }
-
-export default Layout
 ```
-
-Now you can see that our page has been updated.
+Most of the HTML and CSS styles live in `TitleAndDescription`.  The data from `Header`'s database call is displayed here.
