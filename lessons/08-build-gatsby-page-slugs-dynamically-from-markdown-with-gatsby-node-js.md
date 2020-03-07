@@ -16,9 +16,9 @@ const Layout = ( {data}) => {
       edges.map(edge => {
         const { frontmatter } = edge.node
         return (
-          <div key={frontmatter.path}>
+          <div key={ id } style={{ marginTop: '1.62rem' }}>
             <Link to={frontmatter.path}>
-            {frontmatter.title}
+              {frontmatter.title}
             </Link>
           </div>
         )
@@ -48,30 +48,7 @@ export default Layout
 
 Now if you try clicking those links you'll receive a **404 Error** and that's because at the moment these pages don't currently exist.
 
-In order for Gatsby to create the pages that we need for each of our blog posts, we need to create a file called `gatsby-node.js` inside the root of the directory.
-
-Inside our `src` directory we're going to create a `templates` folder. Inside that folder we'll create a new file called `blogPosts.js`.
-
-Inside the the blogPost file type:
-
-```JS
-import React from "react"
-import { graphql }
-
-const Template = props => {
- return (
-   <div>
-     Blog Post Here
-   </div>
- )
-}
-
-export default Template
-```
-
-There are several APIs that gatsby gives us access to. To create pages we're going to use the createPages API.
-
-In `gatsby-node.js` inlcude the follwing:
+In order for Gatsby to create the pages that we need for each of our blog posts, we need to create a file called `gatsby-node.js` inside the root of the directory & fill it with the code below (Note: this uses `async/await`, different than the [original Promises version](https://github.com/eggheadio-projects/build-a-blog-with-react-and-markdown-using-gatsby/blob/master/lessons/08-build-gatsby-page-slugs-dynamically-from-markdown-with-gatsby-node-js/gatsby-node.js)):
 
 ```JS
 const path = require("path")
@@ -106,6 +83,28 @@ exports.createPages = async ({ graphql, actions }) => {
   })
 }
 ```
+
+
+Create a new file: `src/templates/blogPost.js`.
+
+Inside the the blogPost file type:
+
+```JS
+import React from "react"
+import { graphql }
+
+const Template = props => {
+ return (
+   <div>
+     Blog Post Here
+   </div>
+ )
+}
+
+export default Template
+```
+
+There are several APIs that gatsby gives us access to. To create pages we're going to use the createPages API.
 
 Above we did a little destructuring for `graphql` and `action`. Now we'll destruct `createPage` from actions. Our createPages fuction will return a new promise due to the async nature of file creation.
 
