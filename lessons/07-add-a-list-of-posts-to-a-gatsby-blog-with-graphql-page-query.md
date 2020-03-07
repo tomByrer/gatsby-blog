@@ -78,7 +78,7 @@ query HomepageQuery {
 export default Layout
 ```
 
-If you noticed we mapped over our edges to get the titles of each our blog posts. Remember anytime you print out a list in the world of React or Gatsby you always want to make sure you have a unique key.
+If you noticed we mapped over our edges to get the titles of each our blog posts. Remember anytime you print out a list in the world of React or Gatsby you always want to make sure you have a unique key.  (Note: antegalindocruz uses the `id` for the key which is likely more wise than the instructor's `frontmatter.path`, but for a smaller blog both should work fine.  GraphQL's long `id` is more likely to be unique..)
 
 To get our posts to display in the correct order you can go back to GraphiQL and look at the Documentation Explorer and look at `allMarkdownRemark` and see that it can pass it some arguments. One of them is `sort`. We can sort on fields in this case it will be `frontmatter___date` and provide it an order of `DESC`.
 
