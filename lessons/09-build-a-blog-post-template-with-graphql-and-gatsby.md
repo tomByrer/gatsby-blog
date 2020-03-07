@@ -40,10 +40,10 @@ const blogPost = ({ data }) => {
   const title = markdownRemark.frontmatter.title
   const html = markdownRemark.html
   return (
-    <div>
+    <>
       <h1>{title}</h1>
-      <div className="blog-post" dangerouslySetInnerHTML={{ __html: html }} />
-    </div>
+      <div className='blogpost' dangerouslySetInnerHTML={{__html: html}} />
+    </>
   )
 }
 
